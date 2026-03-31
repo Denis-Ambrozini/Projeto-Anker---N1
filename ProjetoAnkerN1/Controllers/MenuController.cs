@@ -42,6 +42,14 @@ namespace ProjetoAnkerN1.Controllers
                 {
                     case 1:
                         Console.WriteLine("Você escolheu consultar alunos!");
+                        AlunoController alunoController = new AlunoController();
+                        var lst = alunoController.ConsultarAluno();
+                        foreach (var aluno in lst)
+                        { 
+                            if (aluno == null) break;
+                            Console.WriteLine();
+                            Console.WriteLine($"Matricula:{aluno.Matricula}\nNome:{aluno.Nome}\nIdade:{aluno.Idade}");
+                        }
                         break;
                     case 2:
                         Console.WriteLine("Você escolheu consultar disciplinas!");

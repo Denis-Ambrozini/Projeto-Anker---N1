@@ -13,6 +13,7 @@
             this.Aluno = aluno;
             this.Disciplina = disciplina;
             this.Notas = notas;
+            Situacao = "";
         }
 
 
