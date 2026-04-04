@@ -12,7 +12,5 @@
             this.Nome = nome;
             this.NotaMinima = notaMinima;
         }
-
-
     }
 }
