@@ -14,18 +14,17 @@ namespace ProjetoAnkerN1.Controllers
                 switch (menuView)
                 {
                     case 1:
-                        Console.WriteLine("Você escolheu consultar!");
+                        Console.WriteLine("\nVocê escolheu consultar!\n");
                         SubMenuConsultar();
                         break;
                     case 2:
-                        Console.WriteLine("Você escolheu cadastros!");
+                        Console.WriteLine("\nVocê escolheu cadastros!\n");
                         SubMenuCadastros();
                         break;
                     case 3:
-                        Console.WriteLine("Você escolheu salvar!");
+                        Console.WriteLine("\nVocê escolheu salvar!\n");
                         break;
                     case 4:
-                        Console.WriteLine("Você escolheu sair!");
                         sair = false;
                         break;
                 }
@@ -41,7 +40,7 @@ namespace ProjetoAnkerN1.Controllers
                 switch (menuView)
                 {
                     case 1:
-                        Console.WriteLine("Você escolheu consultar alunos!");
+                        Console.WriteLine("\nVocê escolheu consultar alunos!\n");
                         AlunoController alunoController = new AlunoController();
                         var lst = alunoController.ConsultarAluno();
                         foreach (var aluno in lst)
@@ -50,18 +49,28 @@ namespace ProjetoAnkerN1.Controllers
                             Console.WriteLine();
                             Console.WriteLine($"Matricula:{aluno.Matricula}\nNome:{aluno.Nome}\nIdade:{aluno.Idade}");
                         }
+                        Console.WriteLine();
                         break;
                     case 2:
-                        Console.WriteLine("Você escolheu consultar disciplinas!");
+                        Console.WriteLine("\nVocê escolheu consultar disciplinas!\n");
+                        DisciplinaController disciplinaController = new DisciplinaController();
+                        var lstDisciplina = disciplinaController.ConsultarDisciplina();
+                        foreach(var disciplina in lstDisciplina)
+                        {
+                            if (disciplina == null) break;
+                            Console.WriteLine();
+                            Console.WriteLine($"Código:{disciplina.Codigo}\nNome:{disciplina.Nome}\nNota Mínima:{disciplina.NotaMinima}");
+                        }
+                        Console.WriteLine();
                         break;
                     case 3:
-                        Console.WriteLine("Você escolheu consultar alunos da disciplina!");
+                        Console.WriteLine("\nVocê escolheu consultar alunos da disciplina!\n");
                         break;
                     case 4:
-                        Console.WriteLine("Você escolheu consultar disciplinas do aluno!");
+                        Console.WriteLine("\nVocê escolheu consultar disciplinas do aluno!\n");
                         break;
                     case 0:
-                        Console.WriteLine("Você escolheu voltar!");
+                        Console.WriteLine("\nVocê escolheu voltar!\n");
                         voltar = false;
                         break;
                 }
@@ -77,19 +86,19 @@ namespace ProjetoAnkerN1.Controllers
                 switch (menuView)
                 {
                     case 1:
-                        Console.WriteLine("Você escolheu cadastrar alunos!");
+                        Console.WriteLine("\nVocê escolheu cadastrar alunos!\n");
                         break;
                     case 2:
-                        Console.WriteLine("Você escolheu cadastrar disciplinas!");
+                        Console.WriteLine("\nVocê escolheu cadastrar disciplinas!\n");
                         break;
                     case 3:
-                        Console.WriteLine("Você escolheu cadastrar matrículas!");
+                        Console.WriteLine("\nVocê escolheu cadastrar matrículas!\n");
                         break;
                     case 4:
-                        Console.WriteLine("Você escolheu atribuir nota a aluno!");
+                        Console.WriteLine("\nVocê escolheu atribuir nota a aluno!\n");
                         break;
                     case 0:
-                        Console.WriteLine("Você escolheu voltar!");
+                        Console.WriteLine("\\nVocê escolheu voltar!\n");
                         voltar = false;
                         break;
                 }
