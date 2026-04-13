@@ -6,6 +6,8 @@
         public string Nome { get; set; }
         public int NotaMinima { get; set; }
 
+        public Disciplina() { }
+
         public Disciplina(int codigo, string nome, int notaMinima)
         {
             this.Codigo = codigo;

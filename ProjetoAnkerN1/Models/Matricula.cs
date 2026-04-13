@@ -2,20 +2,21 @@
 {
     public class Matricula
     {
-        public Aluno Aluno { get; set; }
-        public Disciplina Disciplina { get; set; }
-        public int[] Notas { get; set; }
-        public int Media { get; set; }
+        public string NomeAluno { get; set; }
+        public int AlunoMatricula { get; set; }
+        public int DisciplinaId { get; set; }
+        public int Nota1 { get; set; }
+        public int Nota2 { get; set; }
+        public double Media { get; set; }
         public string Situacao { get; set; }
 
-        public Matricula(Aluno aluno, Disciplina disciplina, int[] notas)
+        public Matricula(int alunoMatricula, int disciplinaId, int nota1, int nota2)
         {
-            this.Aluno = aluno;
-            this.Disciplina = disciplina;
-            this.Notas = notas;
+            this.AlunoMatricula = alunoMatricula;
+            this.DisciplinaId = disciplinaId;
+            this.Nota1 = nota1;
+            this.Nota2 = nota2;
             Situacao = "";
         }
-
-
     }
 }

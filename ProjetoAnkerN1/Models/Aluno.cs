@@ -6,6 +6,8 @@
         public string Nome { get; set; }
         public int Idade { get; set; }
 
+        public Aluno() { } 
+
         public Aluno(int matricula, string nome, int idade)
         {
             this.Matricula = matricula;

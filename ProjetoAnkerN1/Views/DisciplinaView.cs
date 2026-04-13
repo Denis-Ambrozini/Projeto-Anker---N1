@@ -1,5 +1,6 @@
 ﻿using ProjetoAnkerN1.Controllers;
 using ProjetoAnkerN1.Models;
+using ProjetoAnkerN1.Services;
 
 namespace ProjetoAnkerN1.Views
 {
@@ -15,6 +16,44 @@ namespace ProjetoAnkerN1.Views
                 Console.WriteLine($"Código: {disciplina.Codigo}");
                 Console.WriteLine($"Nome: {disciplina.Nome}");
                 Console.WriteLine($"Nota Mínima: {disciplina.NotaMinima}\n");
+            }
+        }
+
+        public string EscolherDisciplinaView()
+        {
+            Console.WriteLine("Digite o código ou o nome da disciplina:");
+            string nome = Console.ReadLine().ToLower().Trim();
+            nome = nome.Replace("á", "a")
+             .Replace("ã", "a")
+             .Replace("â", "a")
+             .Replace("é", "e")
+             .Replace("ê", "e")
+             .Replace("í", "i")
+             .Replace("ó", "o")
+             .Replace("ô", "o")
+             .Replace("õ", "o")
+             .Replace("ú", "u")
+             .Replace("ç", "c");
+            return nome;
+        }
+
+        public void ExibirAlunosNaDisciplina(Matricula[] lstalunos, Disciplina disciplina)
+        {
+            Console.WriteLine($"Alunos na disciplina de {disciplina.Nome}:");
+            Console.WriteLine();
+            foreach (var aluno in lstalunos)
+            {
+                if (aluno == null) continue;
+                Console.WriteLine($"Nome: {aluno.NomeAluno}");
+                Console.WriteLine($"Nota 1: {aluno.Nota1}");
+                Console.WriteLine($"Nota 2: {aluno.Nota2}");
+                Console.WriteLine($"Média: {aluno.Media}");
+                Console.WriteLine($"Situação: {aluno.Situacao}\n");
+            }
+
+            if (lstalunos[0] == null)
+            {
+                Console.WriteLine("Nenhum aluno matriculado nesta disciplina.\n");
             }
         }
     }

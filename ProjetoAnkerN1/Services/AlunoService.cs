@@ -19,5 +19,29 @@ namespace ProjetoAnkerN1.Services
             }
             return lst;
         }
+
+        public Aluno BuscarAlunoPorId(int alunoId)
+        {
+            string[] linhas = File.ReadAllLines("Aluno.dat");
+
+            foreach (string linha in linhas)
+            {
+                string[] dados = linha.Split(';');
+
+                int id = int.Parse(dados[0]);
+                string nome = dados[1];
+
+                if (id == alunoId)
+                {
+                    return new Aluno
+                    {
+                        Matricula = id,
+                        Nome = nome
+                    };
+                }
+            }
+
+            return null;
+        }
     }
 }

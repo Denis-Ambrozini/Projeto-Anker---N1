@@ -1,5 +1,10 @@
 ﻿using System.IO;
 using ProjetoAnkerN1.Models;
+using ProjetoAnkerN1.Views;
+using ProjetoAnkerN1.Controllers;
+using ProjetoAnkerN1.Services;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
 namespace ProjetoAnkerN1.Services
 {
@@ -18,6 +23,51 @@ namespace ProjetoAnkerN1.Services
                 lst[c++] = disciplina;
             }
             return lst;
+        }
+
+        public Matricula[] BuscarAlunosNaDisciplina(Disciplina disciplina)
+        {
+            Matricula[] alunosNaDisciplina = new Matricula[100];
+            string[] consultandoAlunos = File.ReadAllLines("Matriculas.dat");
+
+            int c = 0;
+            foreach (string linha in consultandoAlunos)
+            {
+                string[] alunosDisciplina = linha.Split(';');
+
+                int alunoId = int.Parse(alunosDisciplina[0]);
+                int disciplinaId = int.Parse(alunosDisciplina[1]);
+                int nota1 = int.Parse(alunosDisciplina[2]);
+                int nota2 = int.Parse(alunosDisciplina[3]);
+
+                if (disciplinaId != disciplina.Codigo) continue;
+
+                AlunoService alunoService = new AlunoService();
+                Aluno aluno = alunoService.BuscarAlunoPorId(alunoId);
+
+                if (aluno == null)
+                    continue;
+
+                double media = (nota1 + nota2) / 2.0;
+
+                string situacao;
+                if (media >= disciplina.NotaMinima)
+                {
+                    situacao = "Aprovado";
+                }
+                else
+                {
+                    situacao = "Reprovado";
+                }
+
+                Matricula alunoDisciplina = new Matricula(alunoId, disciplinaId, nota1, nota2);
+                alunoDisciplina.NomeAluno = aluno.Nome;
+                alunoDisciplina.Media = media;
+                alunoDisciplina.Situacao = situacao;
+
+                alunosNaDisciplina[c++] = alunoDisciplina;
+            }
+            return alunosNaDisciplina;
         }
     }
 }

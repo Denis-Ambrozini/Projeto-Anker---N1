@@ -1,4 +1,5 @@
 ﻿using ProjetoAnkerN1.Views;
+using ProjetoAnkerN1.Models;
 
 namespace ProjetoAnkerN1.Controllers
 {
@@ -60,6 +61,11 @@ namespace ProjetoAnkerN1.Controllers
                     case 3:
                         Console.Clear();
                         Console.WriteLine("\nVocê escolheu consultar alunos da disciplina!\n");
+                        DisciplinaController disciplinaController2 = new DisciplinaController();
+                        Disciplina disciplinaBuscada = disciplinaController2.BuscarPorNome();
+                        var lstAlunos = disciplinaController2.BuscarAlunosNaDisciplina(disciplinaBuscada);
+                        DisciplinaView disciplinaView2 = new DisciplinaView();
+                        disciplinaView2.ExibirAlunosNaDisciplina(lstAlunos, disciplinaBuscada);
                         break;
                     case 4:
                         Console.Clear();
