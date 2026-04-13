@@ -45,31 +45,44 @@ namespace ProjetoAnkerN1.Controllers
                     case 1:
                         Console.Clear();
                         Console.WriteLine("\nVocê escolheu consultar alunos!\n");
+
                         AlunoController alunoController = new AlunoController();
                         var lstalunos = alunoController.ConsultarAluno();
+
                         AlunoView alunoView = new AlunoView();
                         alunoView.ExibirAlunos(lstalunos);
                         break;
                     case 2:
                         Console.Clear();
                         Console.WriteLine("\nVocê escolheu consultar disciplinas!\n");
+
                         DisciplinaController disciplinaController = new DisciplinaController();
                         var lstdisciplinas = disciplinaController.ConsultarDisciplina();
+
                         DisciplinaView disciplinaView = new DisciplinaView();
                         disciplinaView.ExibirDisciplina(lstdisciplinas);
                         break;
                     case 3:
                         Console.Clear();
                         Console.WriteLine("\nVocê escolheu consultar alunos da disciplina!\n");
+
                         DisciplinaController disciplinaController2 = new DisciplinaController();
                         Disciplina disciplinaBuscada = disciplinaController2.BuscarPorNome();
                         var lstAlunos = disciplinaController2.BuscarAlunosNaDisciplina(disciplinaBuscada);
+
                         DisciplinaView disciplinaView2 = new DisciplinaView();
                         disciplinaView2.ExibirAlunosNaDisciplina(lstAlunos, disciplinaBuscada);
                         break;
                     case 4:
                         Console.Clear();
                         Console.WriteLine("\nVocê escolheu consultar disciplinas do aluno!\n");
+
+                        AlunoController alunoController2 = new AlunoController();
+                        Aluno alunoBuscado = alunoController2.BuscarDisciplinas();
+                        var lstDisciplinas = alunoController2.BuscarDisciplinasDoAluno(alunoBuscado);
+
+                        AlunoView alunoView2 = new AlunoView();
+                        alunoView2.ExibirAlunos(lstDisciplinas, alunoBuscado);
                         break;
                     case 0:
                         Console.Clear();

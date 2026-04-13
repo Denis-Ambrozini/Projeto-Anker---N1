@@ -69,5 +69,27 @@ namespace ProjetoAnkerN1.Services
             }
             return alunosNaDisciplina;
         }
+
+        public Disciplina BuscarDisciplinaPorCodigo(int disciplinaCodigo)
+        {
+            string[] linhas = File.ReadAllLines("Disciplinas.dat");
+            foreach (string linha in linhas)
+            {
+                string[] dados = linha.Split(';');
+                int codigo = int.Parse(dados[0]);
+                string nome = dados[1];
+                int notaMinima = int.Parse(dados[2]);
+                if (codigo == disciplinaCodigo)
+                {
+                    return new Disciplina
+                    {
+                        Codigo = codigo,
+                        Nome = nome,
+                        NotaMinima = notaMinima
+                    };
+                }
+            }
+            return null;
+        }
     }
 }

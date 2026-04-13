@@ -3,6 +3,7 @@
     public class Matricula
     {
         public string NomeAluno { get; set; }
+        public string NomeDisciplina { get; set; }
         public int AlunoMatricula { get; set; }
         public int DisciplinaId { get; set; }
         public int Nota1 { get; set; }

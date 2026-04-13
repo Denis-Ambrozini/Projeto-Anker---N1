@@ -22,8 +22,8 @@ namespace ProjetoAnkerN1.Views
         public string EscolherDisciplinaView()
         {
             Console.WriteLine("Digite o código ou o nome da disciplina:");
-            string nome = Console.ReadLine().ToLower().Trim();
-            nome = nome.Replace("á", "a")
+            string nomeDisciplina = Console.ReadLine().ToLower().Trim();
+            nomeDisciplina = nomeDisciplina.Replace("á", "a")
              .Replace("ã", "a")
              .Replace("â", "a")
              .Replace("é", "e")
@@ -34,7 +34,13 @@ namespace ProjetoAnkerN1.Views
              .Replace("õ", "o")
              .Replace("ú", "u")
              .Replace("ç", "c");
-            return nome;
+
+            if(string.IsNullOrWhiteSpace(nomeDisciplina))
+            {
+                Console.WriteLine("Código ou nome inválido da disciplina! Tente novamente!\n");
+                return EscolherDisciplinaView();
+            }
+            return nomeDisciplina;
         }
 
         public void ExibirAlunosNaDisciplina(Matricula[] lstalunos, Disciplina disciplina)

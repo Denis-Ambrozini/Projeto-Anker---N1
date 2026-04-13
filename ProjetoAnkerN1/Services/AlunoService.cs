@@ -43,5 +43,48 @@ namespace ProjetoAnkerN1.Services
 
             return null;
         }
+
+        public Matricula[] BuscarDisciplinasDoAluno(Aluno aluno)
+        {
+            Matricula[] disciplinasDoAluno = new Matricula[100];
+            string[] consultandoMatriculas = File.ReadAllLines("Matriculas.dat");
+
+            int c = 0;
+            foreach (string linha in consultandoMatriculas)
+            {
+                string[] dadosMatricula = linha.Split(';');
+
+                int alunoId = int.Parse(dadosMatricula[0]);
+                int disciplinaId = int.Parse(dadosMatricula[1]);
+                int nota1 = int.Parse(dadosMatricula[2]);
+                int nota2 = int.Parse(dadosMatricula[3]);
+
+                if (alunoId != aluno.Matricula) continue;
+
+                DisciplinaService disciplinaService = new DisciplinaService();
+                Disciplina disciplina = disciplinaService.BuscarDisciplinaPorCodigo(disciplinaId);
+
+                if (disciplina == null) continue;
+
+                double media = (nota1 + nota2) / 2.0;
+                string situacao;
+                if (media >= disciplina.NotaMinima)
+                {
+                    situacao = "Aprovado";
+                }
+                else
+                {
+                    situacao = "Reprovado";
+                }
+
+                Matricula matriculaDisciplina = new Matricula(alunoId, disciplinaId, nota1, nota2);
+                matriculaDisciplina.NomeDisciplina = disciplina.Nome;
+                matriculaDisciplina.Media = media;
+                matriculaDisciplina.Situacao = situacao;
+
+                disciplinasDoAluno[c++] = matriculaDisciplina;
+            }
+            return disciplinasDoAluno;
+        }
     }
 }

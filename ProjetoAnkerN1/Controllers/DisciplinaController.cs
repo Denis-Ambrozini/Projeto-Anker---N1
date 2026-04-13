@@ -19,12 +19,6 @@ namespace ProjetoAnkerN1.Controllers
 
             Disciplina[] todas = disciplinaService.ConsultarDisciplina();
 
-            if (string.IsNullOrWhiteSpace(nome))
-            {
-                Console.WriteLine("Código ou nome inválido da disciplina! Tente novamente!\n");
-                return BuscarPorNome();
-            }
-
             foreach (Disciplina d in todas)
             {
                 if (d == null) continue;
