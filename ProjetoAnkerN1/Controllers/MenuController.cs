@@ -1,34 +1,47 @@
 ﻿using ProjetoAnkerN1.Views;
 using ProjetoAnkerN1.Models;
+using ProjetoAnkerN1.Controllers;
 
 namespace ProjetoAnkerN1.Controllers
 {
     public class MenuController
     {
-        public MenuView menuView = new MenuView();
+        MenuView menuView = new MenuView();
+        AlunoController alunoController = new AlunoController();
+        DisciplinaController disciplinaController = new DisciplinaController();
+        MatriculaController matriculaController = new MatriculaController();
+        AlunoView alunoView = new AlunoView();
+        DisciplinaView disciplinaView = new DisciplinaView();
+        MatriculaView matriculaView = new MatriculaView();
 
         public void MenuPrincipal()
         {
             bool sair = true;
-            while (sair) {
-                int menuView = this.menuView.ExibirMenu();
-                switch (menuView)
+            while (sair)
+            {
+                int opcao = menuView.ExibirMenu();
+                switch (opcao)
                 {
                     case 1:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu consultar!\n");
                         SubMenuConsultar();
                         break;
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu cadastros!\n");
                         SubMenuCadastros();
                         break;
                     case 3:
-                        Console.WriteLine("\nVocê escolheu salvar!\n");
+                        Salvar();
+                        Console.WriteLine("Dados salvos!");
                         break;
                     case 4:
-                        sair = false;
+                        Console.WriteLine("Tem Certeza que deseja sair? (S/N)");
+                        string resposta = Console.ReadLine().Trim().ToUpper();
+                        if (resposta == "S")
+                        {
+                            Salvar();
+                            sair = false;
+                        }
                         break;
                 }
             }
@@ -39,54 +52,30 @@ namespace ProjetoAnkerN1.Controllers
             bool voltar = true;
             while (voltar)
             {
-                int menuView = this.menuView.ExibirSubMenuConsultar();
-                switch (menuView)
+                int opcao = menuView.ExibirSubMenuConsultar();
+                switch (opcao)
                 {
                     case 1:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu consultar alunos!\n");
-
-                        AlunoController alunoController = new AlunoController();
-                        var lstalunos = alunoController.ConsultarAluno();
-
-                        AlunoView alunoView = new AlunoView();
-                        alunoView.ExibirAlunos(lstalunos);
+                        alunoView.ExibirAlunos(alunoController.lstAlunos);
                         break;
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu consultar disciplinas!\n");
-
-                        DisciplinaController disciplinaController = new DisciplinaController();
-                        var lstdisciplinas = disciplinaController.ConsultarDisciplina();
-
-                        DisciplinaView disciplinaView = new DisciplinaView();
-                        disciplinaView.ExibirDisciplina(lstdisciplinas);
+                        disciplinaView.ExibirDisciplina(disciplinaController.lstDisciplinas);
                         break;
                     case 3:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu consultar alunos da disciplina!\n");
-
-                        DisciplinaController disciplinaController2 = new DisciplinaController();
-                        Disciplina disciplinaBuscada = disciplinaController2.BuscarPorNome();
-                        var lstAlunos = disciplinaController2.BuscarAlunosNaDisciplina(disciplinaBuscada);
-
-                        DisciplinaView disciplinaView2 = new DisciplinaView();
-                        disciplinaView2.ExibirAlunosNaDisciplina(lstAlunos, disciplinaBuscada);
+                        Disciplina disciplinaBuscada = disciplinaController.BuscarDisciplina();
+                        Matricula[] lstAlunosDisciplina = BuscarAlunosNaDisciplina(disciplinaBuscada);
+                        disciplinaView.ExibirAlunosNaDisciplina(lstAlunosDisciplina, disciplinaBuscada);
                         break;
                     case 4:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu consultar disciplinas do aluno!\n");
-
-                        AlunoController alunoController2 = new AlunoController();
-                        Aluno alunoBuscado = alunoController2.BuscarDisciplinas();
-                        var lstDisciplinas = alunoController2.BuscarDisciplinasDoAluno(alunoBuscado);
-
-                        AlunoView alunoView2 = new AlunoView();
-                        alunoView2.ExibirAlunos(lstDisciplinas, alunoBuscado);
+                        Aluno alunoBuscado = alunoController.BuscarAluno();
+                        Matricula[] lstDisciplinasAluno = BuscarDisciplinasDoAluno(alunoBuscado);
+                        alunoView.ExibirAlunos(lstDisciplinasAluno, alunoBuscado);
                         break;
                     case 0:
-                        Console.Clear();
-                        Console.WriteLine("\nVocê escolheu voltar!\n");
                         voltar = false;
                         break;
                 }
@@ -98,37 +87,110 @@ namespace ProjetoAnkerN1.Controllers
             bool voltar = true;
             while (voltar)
             {
-                int menuView = this.menuView.ExibirSubMenuCadastros();
-                switch (menuView)
+                int opcao = menuView.ExibirSubMenuCadastros();
+                switch (opcao)
                 {
                     case 1:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu cadastrar alunos!\n");
+                        Aluno aluno = alunoView.CadastrarAlunoView();
+                        alunoController.CadastrarAluno(aluno);
                         break;
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu cadastrar disciplinas!\n");
+                        Disciplina disciplina = disciplinaView.CadastrarDisciplinaView();
+                        disciplinaController.CadastrarDisciplina(disciplina);
                         break;
                     case 3:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu cadastrar matrículas!\n");
+                        Aluno alunoMatricula = alunoController.BuscarAluno();
+                        Disciplina disciplinaMatricula = disciplinaController.BuscarDisciplina();
+                        matriculaController.CadastrarMatricula(alunoMatricula.Matricula, disciplinaMatricula.Codigo);
                         break;
                     case 4:
                         Console.Clear();
-                        Console.WriteLine("\nVocê escolheu atribuir nota a aluno!\n");
+                        Aluno alunoNota = alunoController.BuscarAluno();
+                        Disciplina disciplinaNota = disciplinaController.BuscarDisciplina();
+                        int[] notas = matriculaView.AtribuirNotaView();
+                        matriculaController.AtribuirNota(alunoNota.Matricula, disciplinaNota.Codigo, notas[0], notas[1]);
                         break;
                     case 0:
-                        Console.Clear();
-                        Console.WriteLine("\\nVocê escolheu voltar!\n");
                         voltar = false;
                         break;
                 }
             }
         }
 
+        private Matricula[] BuscarAlunosNaDisciplina(Disciplina disciplina)
+        {
+            Matricula[] resultado = new Matricula[100];
+            int c = 0;
+            foreach (Matricula m in matriculaController.lstMatriculas)
+            {
+                if (m == null) break;
+                if (m.DisciplinaId != disciplina.Codigo) continue;
+
+                foreach (Aluno a in alunoController.lstAlunos)
+                {
+                    if (a == null) break;
+                    if (a.Matricula == m.AlunoMatricula)
+                    {
+                        double media = (m.Nota1 + m.Nota2) / 2.0;
+                        m.NomeAluno = a.Nome;
+                        m.Media = media;
+                        if (media >= disciplina.NotaMinima)
+                        {
+                            m.Situacao = "Aprovado";
+                        }
+                        else
+                        {
+                            m.Situacao = "Reprovado";
+                        }
+                        resultado[c++] = m;
+                        break;
+                    }
+                }
+            }
+            return resultado;
+        }
+
+        private Matricula[] BuscarDisciplinasDoAluno(Aluno aluno)
+        {
+            Matricula[] resultado = new Matricula[100];
+            int c = 0;
+            foreach (Matricula m in matriculaController.lstMatriculas)
+            {
+                if (m == null) break;
+                if (m.AlunoMatricula != aluno.Matricula) continue;
+
+                foreach (Disciplina d in disciplinaController.lstDisciplinas)
+                {
+                    if (d == null) break;
+                    if (d.Codigo == m.DisciplinaId)
+                    {
+                        double media = (m.Nota1 + m.Nota2) / 2.0;
+                        m.NomeDisciplina = d.Nome;
+                        m.Media = media;
+                        if (media >= d.NotaMinima)
+                        {
+                            m.Situacao = "Aprovado";
+                        }
+                        else
+                        {
+                            m.Situacao = "Reprovado";
+                        }
+                        resultado[c++] = m;
+                        break;
+                    }
+                }
+            }
+            return resultado;
+        }
+
         public void Salvar()
         {
-
+            alunoController.Salvar();
+            disciplinaController.Salvar();
+            matriculaController.Salvar();
         }
     }
 }

@@ -57,5 +57,20 @@ namespace ProjetoAnkerN1.Views
                 Console.WriteLine($"Nota 2: {disciplina.Nota2}\n");
             }
         }
+
+        public Aluno CadastrarAlunoView()
+        {
+            Console.WriteLine("Digite o nome do aluno:");
+            string nomeAluno = Console.ReadLine().Trim();
+            if (string.IsNullOrWhiteSpace(nomeAluno))
+            {
+                Console.WriteLine("Nome do aluno inválido! Tente novamente!\n");
+                return CadastrarAlunoView();
+            }
+            Console.WriteLine("Digite a idade do aluno:");
+            string idadeAluno = Console.ReadLine();
+
+            return new Aluno { Nome = nomeAluno, Idade = int.Parse(idadeAluno) };
+        }
     }
 }

@@ -7,45 +7,68 @@ namespace ProjetoAnkerN1.Controllers
     public class AlunoController
     {
         AlunoService alunoService = new AlunoService();
-        public Aluno[] ConsultarAluno()
+        public Aluno[] lstAlunos = new Aluno[100];
+        public int totalAlunos = 0;
+
+        public AlunoController()
         {
-            return alunoService.ConsultarAluno();
+            lstAlunos = alunoService.CarregarAlunos();
+            foreach (Aluno a in lstAlunos)
+            {
+                if (a == null) break;
+                totalAlunos++;
+            }
         }
 
-        public Aluno BuscarDisciplinas()
+        public Aluno BuscarAluno()
         {
             AlunoView alunoView = new AlunoView();
-            string nomedoAluno = alunoView.EscolherAlunoView();
+            string input = alunoView.EscolherAlunoView();
 
-            Aluno[] alunos = alunoService.ConsultarAluno();
-
-            foreach (Aluno a in alunos)
+            foreach (Aluno a in lstAlunos)
             {
-                if(a == null) continue;
-
-                if (int.TryParse(nomedoAluno, out int codigo))
+                if (a == null) break;
+                if (int.TryParse(input, out int matricula))
                 {
-                    if (a.Matricula == codigo) return a;
+                    if (a.Matricula == matricula) return a;
                 }
                 else
                 {
                     string nomeSemAcento = a.Nome.ToLower()
-                    .Replace("á", "a").Replace("ã", "a").Replace("â", "a")
-                    .Replace("é", "e").Replace("ê", "e")
-                    .Replace("í", "i")
-                    .Replace("ó", "o").Replace("ô", "o").Replace("õ", "o")
-                    .Replace("ú", "u").Replace("ç", "c");
-
-                    if (nomeSemAcento == nomedoAluno) return a;
+                        .Replace("á", "a").Replace("ã", "a").Replace("â", "a")
+                        .Replace("é", "e").Replace("ê", "e")
+                        .Replace("í", "i")
+                        .Replace("ó", "o").Replace("ô", "o").Replace("õ", "o")
+                        .Replace("ú", "u").Replace("ç", "c");
+                    if (nomeSemAcento == input) return a;
                 }
             }
-            Console.WriteLine("Aluno não encontrado.");
-            return BuscarDisciplinas();
+
+            Console.WriteLine("Aluno não encontrado. Tente novamente!");
+            return BuscarAluno();
         }
 
-        public Matricula[] BuscarDisciplinasDoAluno(Aluno aluno)
+        public void CadastrarAluno(Aluno aluno)
         {
-            return alunoService.BuscarDisciplinasDoAluno(aluno);
+            aluno.Matricula = GerarMatricula();
+            lstAlunos[totalAlunos++] = aluno;
+            Console.WriteLine($"Aluno cadastrado com matrícula {aluno.Matricula}!");
+        }
+
+        public int GerarMatricula()
+        {
+            int maior = 0;
+            foreach (Aluno a in lstAlunos)
+            {
+                if (a == null) break;
+                if (a.Matricula > maior) maior = a.Matricula;
+            }
+            return maior + 1;
+        }
+
+        public void Salvar()
+        {
+            alunoService.Salvar(lstAlunos, totalAlunos);
         }
     }
 }

@@ -62,5 +62,14 @@ namespace ProjetoAnkerN1.Views
                 Console.WriteLine("Nenhum aluno matriculado nesta disciplina.\n");
             }
         }
+
+        public Disciplina CadastrarDisciplinaView()
+        {
+            Console.WriteLine("Digite o nome da disciplina:");
+            string nome = Console.ReadLine().Trim();
+            Console.WriteLine("Digite a nota mínima:");
+            int notaMinima = int.Parse(Console.ReadLine());
+            return new Disciplina { Nome = nome, NotaMinima = notaMinima };
+        }
     }
 }
